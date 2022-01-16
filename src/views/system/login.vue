@@ -4,53 +4,56 @@
       <h1>{{ $t(systemTitle) }}</h1>
       <el-form class="form">
         <el-input
-          size="large"
-          v-model="form.name"
-          :placeholder="$t('message.system.userName')"
-          type="text"
-          maxlength="50"
+            size="large"
+            v-model="form.name"
+            :placeholder="$t('message.system.userName')"
+            type="text"
+            maxlength="50"
         >
           <template #prepend>
             <i class="sfont system-xingmingyonghumingnicheng"></i>
           </template>
         </el-input>
         <el-input
-          size="large"
-          ref="password"
-          v-model="form.password"
-          :type="passwordType"
-          :placeholder="$t('message.system.password')"
-          name="password"
-          maxlength="50"
+            size="large"
+            ref="password"
+            v-model="form.password"
+            :type="passwordType"
+            :placeholder="$t('message.system.password')"
+            name="password"
+            maxlength="50"
         >
           <template #prepend>
             <i class="sfont system-mima"></i>
           </template>
           <template #append>
-            <i class="sfont password-icon" :class="passwordType ? 'system-yanjing-guan': 'system-yanjing'" @click="passwordTypeChange"></i>
+            <i class="sfont password-icon" :class="passwordType ? 'system-yanjing-guan': 'system-yanjing'"
+               @click="passwordTypeChange"></i>
           </template>
         </el-input>
-        <el-button type="primary" :loading="form.loading" @click="submit" style="width: 100%;" size="medium">{{ $t('message.system.login') }}</el-button>
+        <el-button type="primary" :loading="form.loading" @click="submit" style="width: 100%;" size="medium">
+          {{ $t('message.system.login') }}
+        </el-button>
       </el-form>
-      <div class="fixed-top-right">
-        <select-lang />
-      </div>
+      <!--      <div class="fixed-top-right">-->
+      <!--        <select-lang /> -->
+      <!--      </div> -->
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { systemTitle } from '@/config'
-import { defineComponent, ref, reactive } from 'vue'
-import { useStore } from 'vuex'
-import { useRouter, useRoute } from 'vue-router'
-import type { RouteLocationRaw  } from 'vue-router'
-import { getAuthRoutes } from '@/router/permission'
-import { ElMessage } from 'element-plus'
+import {systemTitle} from '@/config'
+import {defineComponent, ref, reactive} from 'vue'
+import {useStore} from 'vuex'
+import {useRouter, useRoute} from 'vue-router'
+import type {RouteLocationRaw} from 'vue-router'
+import {getAuthRoutes} from '@/router/permission'
+import {ElMessage} from 'element-plus'
 import selectLang from '@/layout/Header/functionList/word.vue'
 export default defineComponent({
   components: {
-    selectLang
+    // selectLang
   },
   setup() {
     const store = useStore()
@@ -86,26 +89,26 @@ export default defineComponent({
     }
     const submit = () => {
       checkForm()
-      .then(() => {
-        form.loading = true
-        let params = {
-          name: form.name,
-          password: form.password
-        }
-        store.dispatch('user/login', params)
-        .then(async () => {
-          ElMessage.success({
-            message: '登录成功',
-            type: 'success',
-            showClose: true,
-            duration: 1000
+          .then(() => {
+            form.loading = true
+            let params = {
+              name: form.name,
+              password: form.password
+            }
+            store.dispatch('user/login', params)
+                .then(async () => {
+                  ElMessage.success({
+                    message: '登录成功',
+                    type: 'success',
+                    showClose: true,
+                    duration: 1000
+                  })
+                  await getAuthRoutes()
+                  await router.push(route.query.redirect as RouteLocationRaw || '/')
+                }).finally(() => {
+              form.loading = false
+            })
           })
-          await getAuthRoutes()
-          await router.push(route.query.redirect as RouteLocationRaw || '/')
-        }).finally(() => {
-          form.loading = false
-        })
-      })
     }
     return {
       systemTitle,
@@ -124,6 +127,7 @@ export default defineComponent({
   width: 100vw;
   height: 100vh;
   background-color: #eef0f3;
+
   .box {
     width: 500px;
     position: absolute;
@@ -135,22 +139,27 @@ export default defineComponent({
     height: 440px;
     overflow: hidden;
     box-shadow: 0 6px 20px 5px rgba(152, 152, 152, 0.1),
-      0 16px 24px 2px rgba(117, 117, 117, 0.14);
+    0 16px 24px 2px rgba(117, 117, 117, 0.14);
+
     h1 {
       margin-top: 80px;
       text-align: center;
     }
+
     .form {
       width: 80%;
       margin: 50px auto 15px;
+
       .el-input {
         margin-bottom: 20px;
       }
+
       .password-icon {
         cursor: pointer;
         color: #409eff;
       }
     }
+
     .fixed-top-right {
       position: absolute;
       top: 10px;
@@ -158,6 +167,7 @@ export default defineComponent({
     }
   }
 }
+
 @media screen and (max-width: 750px) {
   .container .box {
     width: 100vw;
@@ -170,9 +180,11 @@ export default defineComponent({
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
     h1 {
       margin-top: 0;
     }
+
     .form {
     }
   }

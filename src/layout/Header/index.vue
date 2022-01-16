@@ -5,16 +5,24 @@
       <div class="menu-icon" @click="opendStateChange">
         <i class="sfont head-fold" :class="isCollapse ? 'system-s-unfold' : 'system-s-fold'"></i>
       </div>
-      <Breadcrumb />
+      <Breadcrumb/>
     </div>
     <div class="right-box">
       <!-- 快捷功能按钮 -->
       <div class="function-list">
-        <div class="function-list-item hidden-sm-and-down"><Full-screen /></div>
-        <div class="function-list-item"><Word /></div>
-        <div class="function-list-item"><SizeChange /></div>
-        <div class="function-list-item hidden-sm-and-down"><Theme /></div>
-        <div class="function-list-item hidden-sm-and-down"><Github /></div>
+        <div class="function-list-item hidden-sm-and-down">
+          <Full-screen/>
+        </div>
+        <!--<div class="function-list-item"><Word /></div>-->
+        <div class="function-list-item">
+          <SizeChange/>
+        </div>
+        <div class="function-list-item hidden-sm-and-down">
+          <Theme/>
+        </div>
+        <div class="function-list-item hidden-sm-and-down">
+          <Github/>
+        </div>
       </div>
       <!-- 用户信息 -->
       <div class="user-info">
@@ -31,15 +39,15 @@
           </template>
         </el-dropdown>
       </div>
-      <password-layer :layer="layer" v-if="layer.show" />
+      <password-layer :layer="layer" v-if="layer.show"/>
     </div>
   </header>
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, reactive } from 'vue'
-import { useStore } from 'vuex'
-import { useRouter, useRoute } from 'vue-router'
+import {defineComponent, computed, reactive} from 'vue'
+import {useStore} from 'vuex'
+import {useRouter, useRoute} from 'vue-router'
 import FullScreen from './functionList/fullscreen.vue'
 import Word from './functionList/word.vue'
 import SizeChange from './functionList/sizeChange.vue'
@@ -47,6 +55,7 @@ import Github from './functionList/github.vue'
 import Theme from './functionList/theme.vue'
 import Breadcrumb from './Breadcrumb.vue'
 import PasswordLayer from './passwordLayer.vue'
+
 export default defineComponent({
   components: {
     FullScreen,
@@ -75,7 +84,7 @@ export default defineComponent({
     const loginOut = () => {
       store.dispatch('user/loginOut')
     }
-    
+
     const showPasswordLayer = () => {
       layer.show = true
     }
@@ -91,60 +100,71 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-  header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 60px;
-    background-color: var(--system-header-background);
-    padding-right: 22px;
-  }
-  .left-box {
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 60px;
+  background-color: var(--system-header-background);
+  padding-right: 22px;
+}
+
+.left-box {
+  height: 100%;
+  display: flex;
+  align-items: center;
+
+  .menu-icon {
+    width: 60px;
     height: 100%;
     display: flex;
     align-items: center;
-    .menu-icon {
-      width: 60px;
-      height: 100%;
+    justify-content: center;
+    font-size: 25px;
+    font-weight: 100;
+    cursor: pointer;
+    margin-right: 10px;
+
+    &:hover {
+      background-color: var(--system-header-item-hover-color);
+    }
+
+    i {
+      color: var(--system-header-text-color);
+    }
+  }
+}
+
+.right-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .function-list {
+    display: flex;
+
+    .function-list-item {
+      width: 30px;
       display: flex;
-      align-items: center;
       justify-content: center;
-      font-size: 25px;
-      font-weight: 100;
-      cursor: pointer;
-      margin-right: 10px;
-      &:hover {
-        background-color: var(--system-header-item-hover-color);
-      }
-      i {
+      align-items: center;
+
+      :deep(i) {
         color: var(--system-header-text-color);
       }
     }
   }
-  .right-box {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    .function-list{
-      display: flex;
-      .function-list-item {
-        width: 30px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        :deep(i) {
-          color: var(--system-header-text-color);
-        }
-      }
-    }
-    .user-info {
-      margin-left: 20px;
-      .el-dropdown-link {
-        color: var(--system-header-breadcrumb-text-color);
-      }
+
+  .user-info {
+    margin-left: 20px;
+
+    .el-dropdown-link {
+      color: var(--system-header-breadcrumb-text-color);
     }
   }
-  .head-fold {
-    font-size: 20px;
-  }
+}
+
+.head-fold {
+  font-size: 20px;
+}
 </style>

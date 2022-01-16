@@ -7,9 +7,19 @@
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
+import {useRoute} from "vue-router";
+import {useStore} from "vuex";
+import {changeTitle} from "@/utils/system/title";
 export default defineComponent({
   name: 'App',
   setup() {
+    // set lang as en
+    const route = useRoute()
+    const store = useStore()
+    store.commit('app/stateChange', { name: 'lang', value: 'en' })
+    // changeTitle(route.meta.title)
+    document.querySelector('html')!.setAttribute('lang', 'en')
+
     const i18n = useI18n()
     const locale = computed(() => {
       return {
